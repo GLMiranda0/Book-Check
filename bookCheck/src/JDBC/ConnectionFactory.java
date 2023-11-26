@@ -4,22 +4,26 @@
  */
 package JDBC;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-    
+import java.sql.*;
+
+
 public class ConnectionFactory {
-    
-    public Connection conecta(){
-        try{
-    
-        return DriverManager.getConnection("jdbc:mysql//localhost/bookcheck","root","admin");
-    
-        }catch(SQLException e){
-    
-            throw new RuntimeException(e);
-            
+     //Metodo para Estabelecer conexão
+    public static Connection Conector(){
+        java.sql.Connection conexao = null;
+        //Chamar Driver
+        String driver = "com.mysql.cj.jdbc.Driver";
+        //Armazenar informações do Banco
+        String url= "jdbc:mysql://localhost:3306/bookCheck";
+        String user="root";
+        String password="admin";
+        //Estabelecendo a conexão com o banco
+        try {
+            Class.forName(driver);
+            conexao = DriverManager.getConnection(url,user,password);
+            return conexao;
+        } catch (Exception e) {
+            return null;
         }
     }
-    
 }
