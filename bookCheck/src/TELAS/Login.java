@@ -6,6 +6,7 @@ package TELAS;
 
 import java.sql.*;
 import JDBC.ConnectionFactory;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 
@@ -16,18 +17,35 @@ public class Login extends javax.swing.JFrame {
     ResultSet rs = null;
     
     public void logar(){
-        String sql="select * from Usuario where Nome_Usuario=? and Telefone=?";
+        String sql="select * from Usuario where Nome_Usuario=? and senha=?";
         try{
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtUser.getText());
-            pst.setString(2, txtTelefone.getText());
+            String captura = new String(pasSenha.getPassword());
+            pst.setString(2, captura);
             //Executar Query
             rs = pst.executeQuery();
             //Se existir Usuário cadastrado
             if(rs.next()){
-                Home tela = new Home();
-                tela.setVisible(true);
-                this.setVisible(false);
+                //verifica se é admin ou User
+                boolean perfil = rs.getBoolean(2);
+                if(perfil){
+                    //Libera sistema para uso
+                    Home tela = new Home();
+                    tela.setVisible(true);
+                    tela.lblUser.setText(rs.getString(5));
+                    tela.lblUser.setForeground(Color.red);
+                    tela.menCadUser.setEnabled(true);
+                    this.dispose();
+                    conexao.close(); 
+                }else{
+                   //Libera sistema para uso
+                    Home tela = new Home();
+                    tela.lblUser.setText(rs.getString(5));
+                    tela.setVisible(true);
+                    this.dispose();
+                    conexao.close();
+                }
             }else{
                 JOptionPane.showMessageDialog(null, "Usuário e/ou Senha Invalidos!");
             }
@@ -42,7 +60,6 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         conexao = ConnectionFactory.Conector();
-        System.out.println(conexao);
     }
 
   
@@ -56,8 +73,8 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
-        txtTelefone = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        pasSenha = new javax.swing.JPasswordField();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -71,7 +88,8 @@ public class Login extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(600, 450));
+        setTitle("Book Check");
+        setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
 
@@ -82,7 +100,7 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setText("Usuário:");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel3.setText("Telefone:");
+        jLabel3.setText("Senha:");
 
         txtUser.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtUser.addActionListener(new java.awt.event.ActionListener() {
@@ -90,8 +108,6 @@ public class Login extends javax.swing.JFrame {
                 txtUserActionPerformed(evt);
             }
         });
-
-        txtTelefone.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton1.setText("Entrar");
@@ -101,29 +117,36 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        pasSenha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        pasSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pasSenhaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(163, 163, 163)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(265, 265, 265)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtUser)
-                            .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pasSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(177, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jButton1)
-                        .addGap(92, 92, 92)))
-                .addContainerGap(170, Short.MAX_VALUE))
+                        .addGap(237, 237, 237))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(251, 251, 251))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,13 +157,13 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(25, 25, 25)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                    .addComponent(pasSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67)
                 .addComponent(jButton1)
-                .addGap(71, 71, 71))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -154,7 +177,8 @@ public class Login extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(616, 458));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -166,6 +190,10 @@ public class Login extends javax.swing.JFrame {
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUserActionPerformed
+
+    private void pasSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pasSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pasSenhaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -209,7 +237,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField txtTelefone;
+    private javax.swing.JPasswordField pasSenha;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }
