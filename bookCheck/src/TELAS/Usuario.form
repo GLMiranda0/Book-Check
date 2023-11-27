@@ -73,23 +73,23 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="txtUsuSenha" max="32767" attributes="0"/>
-                              <Component id="txtUsuEmail" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtUsuSenha" pref="321" max="32767" attributes="0"/>
+                              <Component id="txtUsuIdade" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtUsuNome" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtUsuTelefone" min="-2" pref="321" max="-2" attributes="0"/>
+                              <Component id="comUsuGenero" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="298" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="292" max="-2" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="ckUsuAdm" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="299" max="32767" attributes="0"/>
+                  <EmptySpace pref="307" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="397" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -116,7 +116,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtUsuEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtUsuIdade" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -126,17 +126,14 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtUsuTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="comUsuGenero" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
-                          <Component id="ckUsuAdm" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <Component id="ckUsuAdm" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
                   <Component id="btnUsuCad" min="-2" max="-2" attributes="0"/>
@@ -146,8 +143,6 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JTextField" name="txtUsuTelefone">
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -177,7 +172,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Telefone:"/>
+            <Property name="text" type="java.lang.String" value="G&#xea;nero:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JCheckBox" name="ckUsuAdm">
@@ -192,10 +187,10 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="E-mail:"/>
+            <Property name="text" type="java.lang.String" value="Idade:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtUsuEmail">
+        <Component class="javax.swing.JTextField" name="txtUsuIdade">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
@@ -233,6 +228,23 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUsuCadActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="comUsuGenero">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="3">
+                <StringItem index="0" value="Masculino"/>
+                <StringItem index="1" value="Feminino"/>
+                <StringItem index="2" value="Outro"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comUsuGeneroActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

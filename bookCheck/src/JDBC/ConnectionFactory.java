@@ -14,7 +14,7 @@ public class ConnectionFactory {
         //Chamar Driver
         String driver = "com.mysql.cj.jdbc.Driver";
         //Armazenar informações do Banco
-        String url= "jdbc:mysql://localhost:3306/bookCheck";
+        String url= "jdbc:mysql://localhost:3306/bookcheck";
         String user="root";
         String password="admin";
         //Estabelecendo a conexão com o banco

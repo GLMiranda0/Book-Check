@@ -25,16 +25,16 @@ public class Usuario extends javax.swing.JInternalFrame {
         conexao = ConnectionFactory.Conector();
     }
     private void adicionar(){
-        String sql = "insert into usuario(ADM,Email,Telefone,Nome_Usuario,senha) values(?,?,?,?,?)";
+        String sql = "insert into usuario(ADM,Genero,Idade,Nome_Usuario,senha) values(?,?,?,?,?)";
         try {
             pst = conexao.prepareStatement(sql);
             pst.setBoolean(1, ckUsuAdm.isSelected());
-            pst.setString(2, txtUsuEmail.getText());
-            pst.setString(3, txtUsuTelefone.getText());
+            pst.setString(2, comUsuGenero.getSelectedItem().toString());
+            pst.setString(3, txtUsuIdade.getText());
             pst.setString(4, txtUsuNome.getText());
             pst.setString(5,txtUsuSenha.getText());
             //Valida se todos os campos estão preenchidos
-            if((txtUsuEmail.getText().isEmpty()) || (txtUsuTelefone.getText().isEmpty()) || (txtUsuNome.getText().isEmpty()) || (txtUsuSenha.getText().isEmpty())){
+            if((txtUsuIdade.getText().isEmpty()) || (txtUsuNome.getText().isEmpty()) || (txtUsuSenha.getText().isEmpty())){
                 JOptionPane.showMessageDialog(null, "Preencha todos os Campos!");
             }else{
                 //Adiciona no banco de dados
@@ -43,8 +43,8 @@ public class Usuario extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Usuário Cadastrado");
                 }
                 ckUsuAdm.setSelected(false);
-                txtUsuEmail.setText(null);
-                txtUsuTelefone.setText(null);
+                txtUsuIdade.setText(null);
+                txtUsuIdade.setText(null);
                 txtUsuNome.setText(null);
                 txtUsuSenha.setText(null);
             }
@@ -65,7 +65,6 @@ public class Usuario extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         txtEmail1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        txtUsuTelefone = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -73,10 +72,11 @@ public class Usuario extends javax.swing.JInternalFrame {
         ckUsuAdm = new javax.swing.JCheckBox();
         txtUsuSenha = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtUsuEmail = new javax.swing.JTextField();
+        txtUsuIdade = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtUsuNome = new javax.swing.JTextField();
         btnUsuCad = new javax.swing.JButton();
+        comUsuGenero = new javax.swing.JComboBox<>();
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel5.setText("E-mail:");
@@ -101,7 +101,7 @@ public class Usuario extends javax.swing.JInternalFrame {
         jLabel3.setText("Senha:");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setText("Telefone:");
+        jLabel4.setText("Gênero:");
 
         ckUsuAdm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,7 +110,7 @@ public class Usuario extends javax.swing.JInternalFrame {
         });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel7.setText("E-mail:");
+        jLabel7.setText("Idade:");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel8.setText("Nome:");
@@ -134,6 +134,13 @@ public class Usuario extends javax.swing.JInternalFrame {
             }
         });
 
+        comUsuGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Feminino", "Outro" }));
+        comUsuGenero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comUsuGeneroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -149,18 +156,18 @@ public class Usuario extends javax.swing.JInternalFrame {
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtUsuSenha)
-                            .addComponent(txtUsuEmail, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtUsuSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                            .addComponent(txtUsuIdade, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtUsuNome, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtUsuTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(comUsuGenero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(298, 298, 298)
+                        .addGap(292, 292, 292)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ckUsuAdm)))
-                .addContainerGap(299, Short.MAX_VALUE))
+                .addContainerGap(307, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(397, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -182,7 +189,7 @@ public class Usuario extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(txtUsuEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtUsuIdade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -190,13 +197,11 @@ public class Usuario extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(txtUsuTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(comUsuGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(ckUsuAdm))
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(ckUsuAdm))
                 .addGap(64, 64, 64)
                 .addComponent(btnUsuCad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(198, Short.MAX_VALUE))
@@ -219,10 +224,15 @@ public class Usuario extends javax.swing.JInternalFrame {
         adicionar();
     }//GEN-LAST:event_btnUsuCadActionPerformed
 
+    private void comUsuGeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comUsuGeneroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comUsuGeneroActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnUsuCad;
     private javax.swing.JCheckBox ckUsuAdm;
+    private javax.swing.JComboBox<String> comUsuGenero;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -232,9 +242,8 @@ public class Usuario extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtEmail1;
-    private javax.swing.JTextField txtUsuEmail;
+    private javax.swing.JTextField txtUsuIdade;
     private javax.swing.JTextField txtUsuNome;
     private javax.swing.JTextField txtUsuSenha;
-    private javax.swing.JTextField txtUsuTelefone;
     // End of variables declaration//GEN-END:variables
 }

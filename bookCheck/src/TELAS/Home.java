@@ -20,15 +20,17 @@ public class Home extends javax.swing.JFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
+   
     /**
      * Creates new form Home
      */
     public Home() {
         initComponents();
         conexao = ConnectionFactory.Conector();
+        PesquisarLivro();
     }
     
-    private void pesquisarLivro(){
+    private void PesquisarLivro(){
         String sql = "select * from livro where Nome like ? ORDER BY Nota_Media DESC";
         try {
             pst = conexao.prepareStatement(sql);
@@ -43,21 +45,21 @@ public class Home extends javax.swing.JFrame {
     }
     
         //avaliar Livro
-    public void avaliarLivro(){
+    public void AvaliarLivro(){
             int setar = tbBuscas.getSelectedRow();
-            String sql = "insert into Avaliacao(Nota,Nome_Livro,ID_Usuario) values(?,?,?)";
+            String sql = "insert into Avaliacao(Nota,ID_Livro,ID_Usuario) values(?,?,?)";
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setFloat(1, 5);
-            pst.setString(2, tbBuscas.getModel().getValueAt(setar,1).toString());
+            pst.setInt(1,Integer.parseInt(comNota.getSelectedItem().toString()));
+            pst.setInt(2, Integer.parseInt(tbBuscas.getModel().getValueAt(setar,0).toString()));
             pst.setInt(3,idUser);
             //Valida se todos os campos estão preenchidos
-            
-                //Adiciona no banco de dados
-                int adicionado = pst.executeUpdate();
-                if (adicionado > 0){
-                    JOptionPane.showMessageDialog(null, "Avaliacao Cadastrada!");
-                }
+            //Adiciona no banco de dados
+            int adicionado = pst.executeUpdate();
+            if (adicionado > 0){
+                PesquisarLivro();
+                JOptionPane.showMessageDialog(null, "Avaliacao Cadastrada!");
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,e);
         }
@@ -81,6 +83,7 @@ public class Home extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbBuscas = new javax.swing.JTable();
         btnAvaliar = new javax.swing.JButton();
+        comNota = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -92,9 +95,6 @@ public class Home extends javax.swing.JFrame {
         menCad = new javax.swing.JMenu();
         menCadLiv = new javax.swing.JMenuItem();
         menCadUser = new javax.swing.JMenuItem();
-        menNav = new javax.swing.JMenu();
-        menNavBus = new javax.swing.JMenuItem();
-        menNavIni = new javax.swing.JMenuItem();
 
         jLabel6.setText("Usuário");
 
@@ -148,17 +148,25 @@ public class Home extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tbBuscas);
 
-        btnAvaliar.setText("Avalia");
+        btnAvaliar.setBackground(new java.awt.Color(204, 204, 255));
+        btnAvaliar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/avaliar.png"))); // NOI18N
+        btnAvaliar.setToolTipText("AVALIAR");
+        btnAvaliar.setBorderPainted(false);
+        btnAvaliar.setPreferredSize(new java.awt.Dimension(80, 80));
         btnAvaliar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAvaliarActionPerformed(evt);
             }
         });
 
+        comNota.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        comNota.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+
         Desktop.setLayer(txtBusca, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Desktop.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Desktop.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Desktop.setLayer(btnAvaliar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        Desktop.setLayer(comNota, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout DesktopLayout = new javax.swing.GroupLayout(Desktop);
         Desktop.setLayout(DesktopLayout);
@@ -177,8 +185,10 @@ public class Home extends javax.swing.JFrame {
                         .addGap(0, 154, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(DesktopLayout.createSequentialGroup()
-                .addGap(456, 456, 456)
-                .addComponent(btnAvaliar)
+                .addGap(686, 686, 686)
+                .addGroup(DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAvaliar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         DesktopLayout.setVerticalGroup(
@@ -194,7 +204,9 @@ public class Home extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAvaliar)
+                .addComponent(comNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAvaliar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -267,16 +279,6 @@ public class Home extends javax.swing.JFrame {
 
         Menu.add(menCad);
 
-        menNav.setText("Navegar");
-
-        menNavBus.setText("Buscar Livro");
-        menNav.add(menNavBus);
-
-        menNavIni.setText("Inicio");
-        menNav.add(menNavIni);
-
-        Menu.add(menNav);
-
         setJMenuBar(Menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -304,7 +306,7 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 1, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(1280, 720));
@@ -337,12 +339,12 @@ public class Home extends javax.swing.JFrame {
 
     private void txtBuscaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaKeyReleased
         //Evento de quando digita algo
-        pesquisarLivro();
+        PesquisarLivro();
     }//GEN-LAST:event_txtBuscaKeyReleased
 
     private void btnAvaliarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvaliarActionPerformed
         //Comando Avalia
-        avaliarLivro();
+        AvaliarLivro();
     }//GEN-LAST:event_btnAvaliarActionPerformed
 
     /**
@@ -384,6 +386,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JDesktopPane Desktop;
     private javax.swing.JMenuBar Menu;
     private javax.swing.JButton btnAvaliar;
+    private javax.swing.JComboBox<String> comNota;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -398,9 +401,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenu menCad;
     private javax.swing.JMenuItem menCadLiv;
     public static javax.swing.JMenuItem menCadUser;
-    private javax.swing.JMenu menNav;
-    private javax.swing.JMenuItem menNavBus;
-    private javax.swing.JMenuItem menNavIni;
     private javax.swing.JTable tbBuscas;
     private javax.swing.JTextField txtBusca;
     // End of variables declaration//GEN-END:variables
