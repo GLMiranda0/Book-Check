@@ -8,6 +8,7 @@ import JDBC.ConnectionFactory;
 import java.sql.*;
 import java.text.DateFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -15,6 +16,7 @@ import net.proteanit.sql.DbUtils;
  * @author Gabriel
  */
 public class Home extends javax.swing.JFrame {
+    int idUser;
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
@@ -25,6 +27,42 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         conexao = ConnectionFactory.Conector();
     }
+    
+    private void pesquisarLivro(){
+        String sql = "select * from livro where Nome like ? ORDER BY Nota_Media DESC";
+        try {
+            pst = conexao.prepareStatement(sql);
+            //captura barra de pesquisa
+            pst.setString(1,txtBusca.getText() + "%");
+            rs = pst.executeQuery();
+            //usando biblioteca rs2xml.jar para preencher a tabela.
+            tbBuscas.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,e);
+        }
+    }
+    
+        //avaliar Livro
+    public void avaliarLivro(){
+            int setar = tbBuscas.getSelectedRow();
+            String sql = "insert into Avaliacao(Nota,Nome_Livro,ID_Usuario) values(?,?,?)";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setFloat(1, 5);
+            pst.setString(2, tbBuscas.getModel().getValueAt(setar,1).toString());
+            pst.setInt(3,idUser);
+            //Valida se todos os campos estão preenchidos
+            
+                //Adiciona no banco de dados
+                int adicionado = pst.executeUpdate();
+                if (adicionado > 0){
+                    JOptionPane.showMessageDialog(null, "Avaliacao Cadastrada!");
+                }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,e);
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,8 +80,7 @@ public class Home extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbBuscas = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnAvaliar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -90,6 +127,11 @@ public class Home extends javax.swing.JFrame {
                 txtBuscaActionPerformed(evt);
             }
         });
+        txtBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscaKeyReleased(evt);
+            }
+        });
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/findUser.png"))); // NOI18N
 
@@ -106,15 +148,17 @@ public class Home extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tbBuscas);
 
-        jButton1.setText("jButton1");
-
-        jButton2.setText("jButton2");
+        btnAvaliar.setText("Avalia");
+        btnAvaliar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvaliarActionPerformed(evt);
+            }
+        });
 
         Desktop.setLayer(txtBusca, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Desktop.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Desktop.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        Desktop.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        Desktop.setLayer(jButton2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        Desktop.setLayer(btnAvaliar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout DesktopLayout = new javax.swing.GroupLayout(Desktop);
         Desktop.setLayout(DesktopLayout);
@@ -133,11 +177,9 @@ public class Home extends javax.swing.JFrame {
                         .addGap(0, 154, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(DesktopLayout.createSequentialGroup()
-                .addGap(237, 237, 237)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(134, 134, 134))
+                .addGap(456, 456, 456)
+                .addComponent(btnAvaliar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         DesktopLayout.setVerticalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,10 +193,8 @@ public class Home extends javax.swing.JFrame {
                         .addComponent(jLabel5)))
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84)
-                .addGroup(DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAvaliar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -295,6 +335,16 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscaActionPerformed
 
+    private void txtBuscaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaKeyReleased
+        //Evento de quando digita algo
+        pesquisarLivro();
+    }//GEN-LAST:event_txtBuscaKeyReleased
+
+    private void btnAvaliarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvaliarActionPerformed
+        //Comando Avalia
+        avaliarLivro();
+    }//GEN-LAST:event_btnAvaliarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -333,8 +383,7 @@ public class Home extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane Desktop;
     private javax.swing.JMenuBar Menu;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnAvaliar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
