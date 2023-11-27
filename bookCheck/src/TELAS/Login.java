@@ -34,6 +34,12 @@ public class Login extends javax.swing.JFrame {
                     Home tela = new Home();
                     tela.setVisible(true);
                     tela.lblUser.setText(rs.getString(3));
+                    //Capturar ID de usuário
+                    sql = "SELECT ID_Usuario FROM usuario WHERE Nome_Usuario = ?";
+                    pst = conexao.prepareStatement(sql);
+                    pst.setString(1, txtUser.getText());
+                    tela.idUser = rs.getInt(1);
+                    //Libera Menus de acesso restrito
                     tela.lblUser.setForeground(Color.red);
                     tela.menCadUser.setEnabled(true);
                     this.dispose();

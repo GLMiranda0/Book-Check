@@ -42,9 +42,15 @@ public class Livro extends javax.swing.JInternalFrame {
                 txtLivNome.setText(null);
                 txtLivAutor.setText(null);
             }
-        } catch (Exception e) {
+        }catch(SQLException e){
+            if (e.getErrorCode() == 1062) { // Código de erro para violação de chave única
+                    JOptionPane.showMessageDialog(null,"Livro já Cadastrado!");
+            } else {
+                JOptionPane.showMessageDialog(null,e);
+            }
+        }catch (Exception e) {
             JOptionPane.showMessageDialog(null,e);
-        }
+        } 
         
     }
     

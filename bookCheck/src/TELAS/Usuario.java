@@ -48,7 +48,13 @@ public class Usuario extends javax.swing.JInternalFrame {
                 txtUsuNome.setText(null);
                 txtUsuSenha.setText(null);
             }
-        } catch (Exception e) {
+        } catch(SQLException e){
+            if (e.getErrorCode() == 1062) { // Código de erro para violação de chave única
+                    JOptionPane.showMessageDialog(null,"Usuário já Cadastrado!");
+            } else {
+                JOptionPane.showMessageDialog(null,e);
+            }
+        }catch (Exception e) {
             JOptionPane.showMessageDialog(null,e);
         }
         
