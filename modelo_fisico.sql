@@ -1,25 +1,28 @@
+CREATE DATABASE bookcheck;
+USE bookcheck;
 CREATE TABLE Usuario (
     ID_Usuario INT AUTO_INCREMENT PRIMARY KEY,
-    ADM BIT DEFAULT 0,
-    Nome_Usuario VARCHAR(255) PRIMARY KEY,
+    ADM BOOLEAN DEFAULT 0,
+    Nome_Usuario VARCHAR(255) UNIQUE NOT NULL,
     Senha VARCHAR(50) NOT NULL,
-    Telefone FLOAT DEFAULT NULL
-    Email VARCHAR(45) NOT NULL,
+    Genero VARCHAR(20) NULL,
+    Idade VARCHAR(3) NOT NULL
 );
 
 CREATE TABLE Livro (
-    Nome VARCHAR(255) PRIMARY KEY,
+    ID_Livro INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(255) UNIQUE NOT NULL,
     Nome_Genero VARCHAR(50) NOT NULL,
-    Nota_Media FLOAT DEFAULT NULL
-    Nome_Autor VARCHAR(45) NOT NULL,
+    Nota_Media FLOAT DEFAULT NULL,
+    Nome_Autor VARCHAR(45) NOT NULL
 );
 
 CREATE TABLE Avaliacao (
     ID_Avaliacao INT AUTO_INCREMENT PRIMARY KEY,
     Nota FLOAT NOT NULL,
     ID_Usuario INT NOT NULL,
-    Nome_Livro VARCHAR(255) NOT NULL,
-    FOREIGN KEY (Nome_Livro) REFERENCES Livro(Nome),
+    ID_Livro INT NOT NULL,
+    FOREIGN KEY (ID_Livro) REFERENCES Livro(ID_Livro),
     FOREIGN KEY (ID_Usuario) REFERENCES usuario(ID_Usuario)
 );
 
@@ -34,11 +37,13 @@ BEGIN
     SELECT AVG(Nota)
     INTO media
     FROM Avaliacao
-    WHERE Nome_Livro = NEW.Nome_Livro;
+    WHERE ID_Livro = NEW.ID_Livro;
     
     UPDATE Livro
     SET Nota_Media = media
-    WHERE Nome = NEW.Nome_Livro;
+    WHERE ID_Livro = NEW.ID_Livro;
 END //
 
 DELIMITER ;
+
+
