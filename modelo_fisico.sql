@@ -23,7 +23,8 @@ CREATE TABLE Avaliacao (
     ID_Usuario INT NOT NULL,
     ID_Livro INT NOT NULL,
     FOREIGN KEY (ID_Livro) REFERENCES Livro(ID_Livro),
-    FOREIGN KEY (ID_Usuario) REFERENCES usuario(ID_Usuario)
+    FOREIGN KEY (ID_Usuario) REFERENCES usuario(ID_Usuario),
+    UNIQUE KEY unique_avaliacao (ID_Usuario, ID_Livro)
 );
 
 DELIMITER //
