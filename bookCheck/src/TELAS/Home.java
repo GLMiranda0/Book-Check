@@ -97,7 +97,7 @@ public class Home extends javax.swing.JFrame {
         tbBuscas = new javax.swing.JTable();
         btnAvaliar = new javax.swing.JButton();
         comNota = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
+        lbPesquisa = new javax.swing.JLabel();
         comTagPesquisa = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -154,6 +154,7 @@ public class Home extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/findUser.png"))); // NOI18N
 
+        tbBuscas.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tbBuscas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -181,8 +182,8 @@ public class Home extends javax.swing.JFrame {
         comNota.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         comNota.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel7.setText("Pesquisar Nome do livro");
+        lbPesquisa.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lbPesquisa.setText("Pesquisar Nome Variavel");
 
         comTagPesquisa.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         comTagPesquisa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome do Livro", "Nome do Autor" }));
@@ -197,7 +198,7 @@ public class Home extends javax.swing.JFrame {
         Desktop.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Desktop.setLayer(btnAvaliar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Desktop.setLayer(comNota, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        Desktop.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        Desktop.setLayer(lbPesquisa, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Desktop.setLayer(comTagPesquisa, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout DesktopLayout = new javax.swing.GroupLayout(Desktop);
@@ -212,23 +213,23 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(DesktopLayout.createSequentialGroup()
                         .addGroup(DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(DesktopLayout.createSequentialGroup()
-                                .addGap(99, 99, 99)
+                                .addGap(111, 111, 111)
                                 .addComponent(comTagPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DesktopLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel7)
-                                .addGap(184, 184, 184)))
+                                .addComponent(lbPesquisa)
+                                .addGap(190, 190, 190)))
                         .addComponent(jLabel5)
                         .addGap(0, 41, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(DesktopLayout.createSequentialGroup()
                 .addGap(686, 686, 686)
-                .addGroup(DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnAvaliar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnAvaliar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comNota, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         DesktopLayout.setVerticalGroup(
@@ -236,16 +237,16 @@ public class Home extends javax.swing.JFrame {
             .addGroup(DesktopLayout.createSequentialGroup()
                 .addGroup(DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(DesktopLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel7)
+                        .addGap(12, 12, 12)
+                        .addComponent(lbPesquisa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(comTagPesquisa)
-                            .addComponent(txtBusca)))
+                            .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(DesktopLayout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(jLabel5)))
-                .addGap(31, 31, 31)
+                .addGap(33, 33, 33)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(comNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -395,11 +396,12 @@ public class Home extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         PesquisarLivro();
+        lbPesquisa.setText(comTagPesquisa.getSelectedItem().toString());
     }//GEN-LAST:event_formWindowOpened
 
     private void comTagPesquisaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comTagPesquisaItemStateChanged
         PesquisarLivro();
-        System.out.println(comTagPesquisa.getSelectedItem().toString());
+        lbPesquisa.setText(comTagPesquisa.getSelectedItem().toString());
     }//GEN-LAST:event_comTagPesquisaItemStateChanged
 
     /**
@@ -449,10 +451,10 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbPesquisa;
     public static javax.swing.JLabel lblData;
     public static javax.swing.JLabel lblUser;
     private javax.swing.JMenu menCad;

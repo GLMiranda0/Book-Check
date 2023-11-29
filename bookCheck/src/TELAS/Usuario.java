@@ -29,10 +29,10 @@ public class Usuario extends javax.swing.JInternalFrame {
         try {
             pst = conexao.prepareStatement(sql);
             pst.setBoolean(1, ckUsuAdm.isSelected());
-            pst.setString(2, comUsuGenero.getSelectedItem().toString());
-            pst.setString(3, txtUsuIdade.getText());
-            pst.setString(4, txtUsuNome.getText());
-            pst.setString(5,txtUsuSenha.getText());
+            pst.setString(2, comUsuGenero.getSelectedItem().toString().toUpperCase());
+            pst.setString(3, txtUsuIdade.getText().toUpperCase());
+            pst.setString(4, txtUsuNome.getText().toUpperCase());
+            pst.setString(5,txtUsuSenha.getText().toUpperCase());
             //Valida se todos os campos estão preenchidos
             if((txtUsuIdade.getText().isEmpty()) || (txtUsuNome.getText().isEmpty()) || (txtUsuSenha.getText().isEmpty())){
                 JOptionPane.showMessageDialog(null, "Preencha todos os Campos!");
@@ -50,7 +50,7 @@ public class Usuario extends javax.swing.JInternalFrame {
             }
         } catch(SQLException e){
             if (e.getErrorCode() == 1062) { // Código de erro para violação de chave única
-                    JOptionPane.showMessageDialog(null,"Usuário já Cadastrado!");
+                    JOptionPane.showMessageDialog(null,"Nome de Usuário já Cadastrado!");
             } else {
                 JOptionPane.showMessageDialog(null,e);
             }
@@ -93,7 +93,6 @@ public class Usuario extends javax.swing.JInternalFrame {
         setTitle("Cadastrar Usuários");
         setToolTipText("");
         setPreferredSize(new java.awt.Dimension(979, 689));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
 
@@ -162,18 +161,18 @@ public class Usuario extends javax.swing.JInternalFrame {
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtUsuSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                            .addComponent(txtUsuSenha)
                             .addComponent(txtUsuIdade, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtUsuNome, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comUsuGenero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(comUsuGenero, 0, 321, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(292, 292, 292)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ckUsuAdm)))
-                .addContainerGap(307, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(397, Short.MAX_VALUE)
+                .addContainerGap(394, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -213,7 +212,16 @@ public class Usuario extends javax.swing.JInternalFrame {
                 .addContainerGap(198, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, 0, 970, -1));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         setBounds(0, 0, 979, 689);
     }// </editor-fold>//GEN-END:initComponents

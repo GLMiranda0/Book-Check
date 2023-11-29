@@ -27,9 +27,9 @@ public class Livro extends javax.swing.JInternalFrame {
         String sql = "insert into livro(Nome,Nome_Autor,Nome_Genero) values(?,?,?)";
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtLivNome.getText());
-            pst.setString(2, txtLivAutor.getText());
-            pst.setString(3, comLivGenero.getSelectedItem().toString());
+            pst.setString(1, txtLivNome.getText().toUpperCase());
+            pst.setString(2, txtLivAutor.getText().toUpperCase());
+            pst.setString(3, comLivGenero.getSelectedItem().toString().toUpperCase());
             //Valida se todos os campos estão preenchidos
             if((txtLivNome.getText().isEmpty()) || (txtLivAutor.getText().isEmpty())){
                 JOptionPane.showMessageDialog(null, "Preencha todos os Campos!");
