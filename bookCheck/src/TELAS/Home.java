@@ -31,7 +31,10 @@ public class Home extends javax.swing.JFrame {
     }
     
     private void PesquisarLivro(){
-        String sql = "select * from livro where Nome like ? ORDER BY Nota_Media DESC";
+        String sql = "select * from livro where Nome like ? ORDER BY Nota_Media DESC";    
+        if(comTagPesquisa.getSelectedItem().toString().equals("Nome do Autor")){    
+            sql = "select * from livro where Nome_Autor like ? ORDER BY Nota_Media DESC";
+        }
         try {
             pst = conexao.prepareStatement(sql);
             //captura barra de pesquisa
@@ -94,6 +97,8 @@ public class Home extends javax.swing.JFrame {
         tbBuscas = new javax.swing.JTable();
         btnAvaliar = new javax.swing.JButton();
         comNota = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        comTagPesquisa = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -126,6 +131,9 @@ public class Home extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -173,11 +181,24 @@ public class Home extends javax.swing.JFrame {
         comNota.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         comNota.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel7.setText("Pesquisar Nome do livro");
+
+        comTagPesquisa.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        comTagPesquisa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome do Livro", "Nome do Autor" }));
+        comTagPesquisa.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comTagPesquisaItemStateChanged(evt);
+            }
+        });
+
         Desktop.setLayer(txtBusca, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Desktop.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Desktop.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Desktop.setLayer(btnAvaliar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         Desktop.setLayer(comNota, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        Desktop.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        Desktop.setLayer(comTagPesquisa, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout DesktopLayout = new javax.swing.GroupLayout(Desktop);
         Desktop.setLayout(DesktopLayout);
@@ -189,11 +210,19 @@ public class Home extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane1))
                     .addGroup(DesktopLayout.createSequentialGroup()
-                        .addGap(177, 177, 177)
-                        .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGroup(DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(DesktopLayout.createSequentialGroup()
+                                .addGap(99, 99, 99)
+                                .addComponent(comTagPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DesktopLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel7)
+                                .addGap(184, 184, 184)))
                         .addComponent(jLabel5)
-                        .addGap(0, 138, Short.MAX_VALUE)))
+                        .addGap(0, 41, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(DesktopLayout.createSequentialGroup()
                 .addGap(686, 686, 686)
@@ -207,8 +236,12 @@ public class Home extends javax.swing.JFrame {
             .addGroup(DesktopLayout.createSequentialGroup()
                 .addGroup(DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(DesktopLayout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(comTagPesquisa)
+                            .addComponent(txtBusca)))
                     .addGroup(DesktopLayout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(jLabel5)))
@@ -360,6 +393,15 @@ public class Home extends javax.swing.JFrame {
         AvaliarLivro();
     }//GEN-LAST:event_btnAvaliarActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        PesquisarLivro();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void comTagPesquisaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comTagPesquisaItemStateChanged
+        PesquisarLivro();
+        System.out.println(comTagPesquisa.getSelectedItem().toString());
+    }//GEN-LAST:event_comTagPesquisaItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -400,12 +442,14 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenuBar Menu;
     private javax.swing.JButton btnAvaliar;
     private javax.swing.JComboBox<String> comNota;
+    private javax.swing.JComboBox<String> comTagPesquisa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
